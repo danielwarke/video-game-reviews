@@ -28,7 +28,7 @@ const Reviews = () => {
 	}, []);
 	
 	return (
-		<Container maxWidth="md">
+		<Container maxWidth="sm">
 			{reviews.map((review, i) => (
 				<Review key={i}
 			        reviewId={review.id}
