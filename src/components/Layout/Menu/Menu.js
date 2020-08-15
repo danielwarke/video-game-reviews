@@ -12,6 +12,7 @@ import {
 
 import {
 	Stars,
+	VideogameAsset,
 	Menu as MenuIcon
 } from '@material-ui/icons';
 
@@ -35,8 +36,14 @@ const Menu = (props) => {
 	
 	menuOptions.push({
 		icon: <Stars />,
-		text: 'New Reviews',
+		text: 'Reviews',
 		path: '/'
+	});
+	
+	menuOptions.push({
+		icon: <VideogameAsset />,
+		text: 'Video Games',
+		path: 'video-games'
 	});
 	
 	const list = menuOptions.map((menuOption, i) => (

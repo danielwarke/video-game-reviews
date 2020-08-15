@@ -8,11 +8,13 @@ const Reviews = () => {
 	const [loading, setLoading] = useState(false);
 	const [reviews, setReviews] = useState([
 		{
-			id: 3,
-			title: 'Testing',
-			body: 'We dont know who we are',
-			rating: 3,
-			creator: 'Daniel Warke'
+			reviewId: 3,
+			title: 'I really enjoyed it!',
+			body: 'One of the most memorable Paper Mario experiences to date.',
+			imageUrl: 'https://images.nintendolife.com/cfb927ec2c8d0/1280x720.jpg',
+			rating: 4,
+			creator: 'Daniel Warke',
+			videoGame: 'Paper Mario: The Origami King'
 		}
 	]);
 	
@@ -27,15 +29,13 @@ const Reviews = () => {
 		// });
 	}, []);
 	
+	const reviewList = reviews.map((review, i) => (
+		<Review key={i} {...review} />
+	));
+	
 	return (
 		<Container maxWidth="sm">
-			{reviews.map((review, i) => (
-				<Review key={i}
-			        reviewId={review.id}
-					title={review.title}
-			        body={review.body}
-			        creator={review.creator} />
-			))}
+			{reviewList}
 		</Container>
 	);
 };

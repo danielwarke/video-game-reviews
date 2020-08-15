@@ -1,12 +1,15 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 
-import { Card } from '@material-ui/core';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
+import {
+	Card,
+	CardActions,
+	CardContent,
+	CardMedia,
+	Button,
+	Typography
+} from '@material-ui/core';
+import Rating from '@material-ui/lab/Rating';
 
 import classes from './Review.module.css';
 
@@ -31,7 +34,12 @@ const Review = (props) => {
 					<Typography gutterBottom variant="h5" component="h2">
 						{props.title}
 					</Typography>
-					<Typography variant="body2" color="textSecondary" component="p">
+					<Rating value={props.rating} readOnly />
+					<Typography variant="body1" color="textSecondary" component="p">
+						{props.videoGame}
+					</Typography>
+					<CardMedia className={classes.Image} image={props.imageUrl} title={props.videoGame} />
+					<Typography variant="body2" component="p">
 						{props.body}
 					</Typography>
 				</CardContent>
