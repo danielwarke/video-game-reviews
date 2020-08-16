@@ -1,21 +1,49 @@
 import React, { useEffect } from 'react';
+import { withRouter } from 'react-router-dom';
 
-import {Container} from '@material-ui/core';
-import Typography from '@material-ui/core/Typography';
+import {
+	Container,
+	Typography,
+	Button,
+	Grid
+} from '@material-ui/core';
+
+import { Rating } from '@material-ui/lab';
 
 import classes from './ReviewDetails.module.css';
 
 const ReviewDetails = (props) => {
+	const review = props.location.state.review;
+	
 	useEffect(() => {
-		console.log(props);
+		console.log(review);
 	}, []);
 	
-	const review = props.location.state.review;
+	const editReviewHandler = () => {
+		props.history.push({
+			pathname: '/review/' + review.reviewId + '/edit',
+			state: { review: review }
+		});
+	};
 	
 	return (
 		<Container maxWidth="md" className={classes.ReviewDetails}>
-			<Typography gutterBottom variant="h2" component="h1">
-				{review.title}
+			<Grid container spacing={3} justify="space-between">
+				<Grid item>
+					<Typography gutterBottom variant="h2" component="h1">
+						{review.title}
+					</Typography>
+					<Rating value={review.rating} readOnly size="large" />
+				</Grid>
+				<Grid item>
+					<Button variant="contained" onClick={editReviewHandler}>
+						Edit
+					</Button>
+				</Grid>
+			</Grid>
+			<img src={review.imageUrl} alt={review.videoGame} className={classes.Image} />
+			<Typography gutterBottom variant="body2" component="h5">
+				By: {review.creator}
 			</Typography>
 			<Typography variant="body1" component="p">
 				{review.body}
@@ -24,4 +52,4 @@ const ReviewDetails = (props) => {
 	);
 };
 
-export default ReviewDetails;
+export default withRouter(ReviewDetails);

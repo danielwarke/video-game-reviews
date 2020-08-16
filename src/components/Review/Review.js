@@ -14,14 +14,18 @@ import Rating from '@material-ui/lab/Rating';
 import classes from './Review.module.css';
 
 const Review = (props) => {
+	
 	const reviewClickedHandler = () => {
 		props.history.push({
 			pathname: '/review-details/' + props.reviewId,
 			state: {
 				review: {
-					id: props.reviewId,
+					reviewId: props.reviewId,
 					title: props.title,
-					body: props.body
+					body: props.body,
+					creator: props.creator,
+					imageUrl: props.imageUrl,
+					rating: props.rating
 				}
 			}
 		});

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 
 import {
@@ -14,9 +14,34 @@ import Rating from '@material-ui/lab/Rating';
 import classes from './VideoGame.module.css';
 
 const VideoGame = (props) => {
+	const [isAuth, setIsAuth] = useState(true);
+	
+	useEffect(() => {
+		const token = localStorage.getItem('token');
+		if (token) {
+			setIsAuth(true);
+		}
+	}, []);
+	
 	const videoGameClickedHandler = () => {
 		props.history.push('/');
 	};
+	
+	const editButtonHandler = () => {
+		props.history.push({
+			pathname: '/video-game/' + props.videoGameId + '/edit',
+			state: {
+				videoGame: {
+					videoGameId: props.videoGameId,
+					title: props.title,
+					description: props.description,
+					imageUrl: props.imageUrl
+				}
+			}
+		});
+	};
+	
+	const editButton = isAuth ? <Button size="small" onClick={editButtonHandler}>Edit</Button> : null;
 	
 	return (
 		<React.Fragment>
@@ -33,6 +58,7 @@ const VideoGame = (props) => {
 				</CardContent>
 				<CardActions>
 					<Button size="small" onClick={videoGameClickedHandler}>See Reviews</Button>
+					{editButton}
 				</CardActions>
 			</Card>
 		</React.Fragment>

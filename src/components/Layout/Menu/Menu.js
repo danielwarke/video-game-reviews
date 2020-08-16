@@ -13,8 +13,11 @@ import {
 import {
 	Stars,
 	VideogameAsset,
-	Menu as MenuIcon
+	Menu as MenuIcon,
+	Create as CreateIcon
 } from '@material-ui/icons';
+
+import classes from './Menu.module.css';
 
 const Menu = (props) => {
 	const [menuOpen, setMenuOpen] = useState(false);
@@ -32,32 +35,48 @@ const Menu = (props) => {
 		props.history.push(path);
 	};
 	
-	const menuOptions = [];
+	const menuOptions = [
+		{
+			icon: <Stars />,
+			text: 'Reviews',
+			path: '/'
+		},
+		{
+			icon: <VideogameAsset />,
+			text: 'Video Games',
+			path: '/video-games'
+		}
+	];
 	
 	menuOptions.push({
-		icon: <Stars />,
-		text: 'Reviews',
-		path: '/'
+		type: 'divider',
+		content: <Divider />
 	});
 	
 	menuOptions.push({
-		icon: <VideogameAsset />,
-		text: 'Video Games',
-		path: 'video-games'
+		icon: <CreateIcon />,
+		text: 'Write New Review',
+		path: '/review/create'
 	});
 	
-	const list = menuOptions.map((menuOption, i) => (
-		<ListItem button key={i} onClick={() => menuItemClickedHandler(menuOption.path)}>
-			<ListItemIcon>{menuOption.icon}</ListItemIcon>
-			<ListItemText primary={menuOption.text} />
-		</ListItem>
-	));
+	const list = menuOptions.map((menuOption, i) => {
+		if (menuOption.type === 'divider') {
+			return menuOption.content;
+		} else {
+			return (
+				<ListItem button key={i} onClick={() => menuItemClickedHandler(menuOption.path)}>
+					<ListItemIcon>{menuOption.icon}</ListItemIcon>
+					<ListItemText primary={menuOption.text} />
+				</ListItem>
+			);
+		}
+	});
 	
 	return (
 		<React.Fragment>
 			<MenuIcon onClick={toggleMenuOpen} />
 			<Drawer anchor="left" open={menuOpen} onClose={toggleMenuOpen}>
-				<List>
+				<List className={classes.List}>
 					{list}
 				</List>
 			</Drawer>
