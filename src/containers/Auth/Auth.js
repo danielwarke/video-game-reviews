@@ -1,4 +1,4 @@
-import React, { useState, useReducer, useEffect } from 'react';
+import React, { useState, useReducer, useEffect, useContext } from 'react';
 import { withRouter } from 'react-router-dom';
 
 import {
@@ -15,14 +15,13 @@ import {
 
 import axios from '../../shared/axios';
 import classes from './Auth.module.css';
-import authReducer from '../../store/reducers/auth';
-import * as actions from '../../store/actions/auth';
+import { AuthContext } from '../../context/auth-context';
 
 const Auth = (props) => {
-	const [state, dispatch] = useReducer(authReducer);
+	const authContext = useContext(AuthContext);
+	
 	const [isSignup, setIsSignup] = useState(false);
 	const [loading, setLoading] = useState(false);
-	
 	const [loginForm, setLoginForm] = useState({
 		username: '',
 		email: '',
@@ -30,8 +29,8 @@ const Auth = (props) => {
 	});
 	
 	useEffect(() => {
-		dispatch(actions.authSetLoginButton(null));
-	}, [dispatch]);
+		authContext.setLoginButton(null);
+	}, []);
 	
 	const authSubmitHandler = (event) => {
 		event.preventDefault();
@@ -51,10 +50,9 @@ const Auth = (props) => {
 			// 	email: email
 			// });
 		} else {
-			dispatch(actions.authLogin('blah', 'blah'));
+			authContext.login('blah', 'test');
 		}
 		
-		dispatch(actions.authSetLoginButton('Logout'));
 		props.history.replace('/');
 	};
 	
