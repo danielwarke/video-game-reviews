@@ -5,21 +5,18 @@ import {
 	Button,
 	CircularProgress,
 	Container,
-	TextField,
-	Snackbar,
-	Alert
+	TextField
 } from '@material-ui/core';
 
 import {
 	LockOpen
 } from '@material-ui/icons';
 
-import MuiAlert from '@material-ui/lab/Alert';
-
 import axios from '../../shared/axios';
 import classes from './Auth.module.css';
 import { AuthContext } from '../../context/auth-context';
 import { getErrorMessage } from '../../shared/utility';
+import Alert from '../../components/UI/Alert/Alert';
 
 const Auth = (props) => {
 	const authContext = useContext(AuthContext);
@@ -82,8 +79,9 @@ const Auth = (props) => {
 			setLoading(false);
 			const token = response.data.token;
 			const userId = response.data.userId;
+			const expiresIn = response.data.expiresIn;
 			
-			authContext.login(token, userId);
+			authContext.login(token, userId, expiresIn);
 			props.history.replace('/');
 		}).catch(err => {
 			setLoading(false);
@@ -187,11 +185,11 @@ const Auth = (props) => {
 					value={loginForm.password}
 					onChange={(e) => inputChangedHandler(e, 'password')}/>
 				{buttons}
-				<Snackbar open={snackBar.open} autoHideDuration={6000} onClose={handleSnackbarClosed}>
-					<MuiAlert elevation={6} variant="filled" onClose={handleSnackbarClosed} severity={snackBar.severity}>
-						{snackBar.message}
-					</MuiAlert>
-				</Snackbar>
+				<Alert
+					open={snackBar.open}
+					severity={snackBar.severity}
+					message={snackBar.message}
+					handleSnackbarClosed={handleSnackbarClosed}  />
 			</form>
 		</Container>
 	);

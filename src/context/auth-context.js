@@ -4,7 +4,7 @@ export const AuthContext = React.createContext({
 	token: null,
 	userId: null,
 	loginButton: 'Login',
-	login: (token, userId, expirationDate) => {},
+	login: (token, userId, expiresIn) => {},
 	logout: () => {},
 	setLoginButton: (loginButton) => {},
 	checkState: () => {}
@@ -17,9 +17,11 @@ export default props => {
 		loginButton: 'Login'
 	});
 	
-	const login = (token, userId, expirationDate) => {
+	const login = (token, userId, expiresIn) => {
 		localStorage.setItem('token', token);
 		localStorage.setItem('userId', userId);
+		
+		const expirationDate = new Date(new Date().getTime() + (+expiresIn * 60 * 1000));
 		localStorage.setItem('expirationDate', expirationDate);
 		
 		setAuthState({
@@ -63,8 +65,11 @@ export default props => {
 				setAuthState({
 					...authState,
 					token: token,
-					userId: userId
+					userId: userId,
+					loginButton: 'Logout'
 				});
+				
+				return true;
 			} else {
 				return logout();
 			}
