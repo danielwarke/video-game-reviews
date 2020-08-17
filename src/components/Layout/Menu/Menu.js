@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { withRouter } from 'react-router-dom';
 
 import {
@@ -18,8 +18,10 @@ import {
 } from '@material-ui/icons';
 
 import classes from './Menu.module.css';
+import { AuthContext } from '../../../context/auth-context';
 
 const Menu = (props) => {
+	const isAuth = useContext(AuthContext).token !== null;
 	const [menuOpen, setMenuOpen] = useState(false);
 	
 	const toggleMenuOpen = (event) => {
@@ -48,20 +50,22 @@ const Menu = (props) => {
 		}
 	];
 	
-	menuOptions.push({
-		type: 'divider',
-		content: <Divider />
-	});
-	
-	menuOptions.push({
-		icon: <CreateIcon />,
-		text: 'Write New Review',
-		path: '/review/create'
-	});
+	if (isAuth) {
+		menuOptions.push({
+			type: 'divider'
+		});
+		
+		
+		menuOptions.push({
+			icon: <CreateIcon />,
+			text: 'Write New Review',
+			path: '/review/create'
+		});
+	}
 	
 	const list = menuOptions.map((menuOption, i) => {
 		if (menuOption.type === 'divider') {
-			return menuOption.content;
+			return <Divider key={i} />;
 		} else {
 			return (
 				<ListItem button key={i} onClick={() => menuItemClickedHandler(menuOption.path)}>

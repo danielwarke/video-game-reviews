@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Route, Switch } from 'react-router-dom';
 
 import Header from './components/Layout/Header/Header';
@@ -10,34 +10,43 @@ import EditReview from './components/Review/EditReview/EditReview';
 import Auth from './containers/Auth/Auth';
 import { AuthContext } from './context/auth-context';
 
-function App () {
-	const authContext = useContext(AuthContext);
-	
-	let isLoggedIn = false;
+function App (props) {
+	const token = localStorage.getItem('token');
+	const isAuth = token !== null;
+	const checkState = useContext(AuthContext).checkState;
 	
 	useEffect(() => {
-		isLoggedIn = authContext.checkState();
+		checkState();
 	}, []);
 	
-	const authRoutes = (
-		<React.Fragment>
-			<Route path="/review/create" exact component={EditReview} />
-			<Route path="/review/:reviewId/edit" component={EditReview} />
-			<Route path="/video-game/create" component={EditVideoGame} />
-			<Route path="/video-game/:videoGameId/edit" component={EditVideoGame} />
-		</React.Fragment>
+	let routes = (
+		<Switch>
+			<Route path="/review-details" component={ReviewDetails} />
+			<Route path="/video-games" component={VideoGames} />
+			<Route path="/auth" component={Auth} />
+			<Route path="/" component={Reviews} />
+		</Switch>
 	);
+	
+	if (isAuth) {
+		routes = (
+			<Switch>
+				<Route path="/review-details" component={ReviewDetails} />
+				<Route path="/video-games" component={VideoGames} />
+				<Route path="/auth" component={Auth} />
+				<Route path="/review/create" exact component={EditReview} />
+				<Route path="/review/:reviewId/edit" component={EditReview} />
+				<Route path="/video-game/create" component={EditVideoGame} />
+				<Route path="/video-game/:videoGameId/edit" component={EditVideoGame} />
+				<Route path="/" component={Reviews} />
+			</Switch>
+		);
+	}
 	
 	return (
 		<div>
             <Header />
-            <Switch>
-	            {isLoggedIn ? authRoutes : null}
-	            <Route path="/review-details" component={ReviewDetails} />
-	            <Route path="/video-games" component={VideoGames} />
-	            <Route path="/auth" component={Auth} />
-	            <Route path="/" component={Reviews} />
-            </Switch>
+			{routes}
 		</div>
 	);
 }

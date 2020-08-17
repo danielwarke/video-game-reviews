@@ -22,7 +22,7 @@ const Auth = (props) => {
 	const authContext = useContext(AuthContext);
 	
 	const [isSignup, setIsSignup] = useState(false);
-	const [snackBar, setSnackBar] = useState({
+	const [alert, setAlert] = useState({
 		open: false,
 		severity: 'success',
 		message: ''
@@ -55,7 +55,7 @@ const Auth = (props) => {
 			
 			setIsSignup(false);
 			
-			setSnackBar({
+			setAlert({
 				open: true,
 				severity: 'success',
 				message: response.data.message
@@ -63,7 +63,7 @@ const Auth = (props) => {
 		}).catch(err => {
 			setLoading(false);
 			
-			setSnackBar({
+			setAlert({
 				open: true,
 				severity: 'error',
 				message: getErrorMessage(err)
@@ -86,7 +86,7 @@ const Auth = (props) => {
 		}).catch(err => {
 			setLoading(false);
 			
-			setSnackBar({
+			setAlert({
 				open: true,
 				severity: 'error',
 				message: getErrorMessage(err)
@@ -110,13 +110,13 @@ const Auth = (props) => {
 		}
 	};
 	
-	const handleSnackbarClosed = (event, reason) => {
+	const handleAlertClosed = (event, reason) => {
 		if (reason === 'clickaway') {
 			return;
 		}
 		
-		setSnackBar({
-			...snackBar,
+		setAlert({
+			...alert,
 			open: false
 		});
 	};
@@ -186,10 +186,10 @@ const Auth = (props) => {
 					onChange={(e) => inputChangedHandler(e, 'password')}/>
 				{buttons}
 				<Alert
-					open={snackBar.open}
-					severity={snackBar.severity}
-					message={snackBar.message}
-					handleSnackbarClosed={handleSnackbarClosed}  />
+					open={alert.open}
+					severity={alert.severity}
+					message={alert.message}
+					onClose={handleAlertClosed}  />
 			</form>
 		</Container>
 	);

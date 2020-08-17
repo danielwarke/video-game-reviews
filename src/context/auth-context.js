@@ -56,7 +56,8 @@ export default props => {
 		const token = localStorage.getItem('token');
 		
 		if (!token) {
-			return logout();
+			logout();
+			return false;
 		} else {
 			const expirationDate = new Date(localStorage.getItem('expirationDate'));
 			if (expirationDate > new Date()) {
@@ -71,7 +72,8 @@ export default props => {
 				
 				return true;
 			} else {
-				return logout();
+				logout();
+				return false;
 			}
 		}
 	};

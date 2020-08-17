@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { withRouter } from 'react-router-dom';
 
 import {
@@ -9,19 +9,14 @@ import {
 	Button,
 	Typography
 } from '@material-ui/core';
+
 import Rating from '@material-ui/lab/Rating';
 
 import classes from './VideoGame.module.css';
+import { AuthContext } from '../../context/auth-context';
 
 const VideoGame = (props) => {
-	const [isAuth, setIsAuth] = useState(true);
-	
-	useEffect(() => {
-		const token = localStorage.getItem('token');
-		if (token) {
-			setIsAuth(true);
-		}
-	}, []);
+	const isAuth = useContext(AuthContext).token !== null;
 	
 	const videoGameClickedHandler = () => {
 		props.history.push('/');
