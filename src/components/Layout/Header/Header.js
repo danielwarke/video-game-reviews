@@ -6,7 +6,9 @@ import {
 	Toolbar,
 	IconButton,
 	Typography,
-	Button
+	Button,
+	Hidden,
+	Grid
 } from '@material-ui/core';
 
 import {
@@ -77,16 +79,26 @@ const Header = (props) => {
 	}
 	
 	return (
-			<AppBar position="static">
+			<AppBar position="sticky">
 				<Toolbar>
-					<IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-						<Menu />
-					</IconButton>
-					<Typography variant="h6" className={classes.title}>
-						Video Game Reviews
-					</Typography>
-					{userButton}
-					{authButton}
+					<Grid justify="space-between" container spacing={25} alignItems="center">
+						<Grid item>
+							<IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
+								<Menu />
+							</IconButton>
+						</Grid>
+						<Hidden smDown>
+							<Grid item>
+								<Typography variant="h6" className={classes.title}>
+									Video Game Reviews
+								</Typography>
+							</Grid>
+						</Hidden>
+						<Grid item>
+							{userButton}
+							{authButton}
+						</Grid>
+					</Grid>
 				</Toolbar>
 			</AppBar>
 	);

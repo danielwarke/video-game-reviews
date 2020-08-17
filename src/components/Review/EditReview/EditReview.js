@@ -28,7 +28,7 @@ import axios from '../../../shared/axios';
 
 const EditReview = (props) => {
 	const videoGameContext = useContext(VideoGameContext);
-	const [review, setReview] = useState(props.location.state ? props.location.state.review : {
+	const [review] = useState(props.location.state ? props.location.state.review : {
 		videoGameId: '',
 		title: '',
 		rating: 0,

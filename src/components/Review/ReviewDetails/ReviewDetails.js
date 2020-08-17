@@ -12,6 +12,7 @@ import { Rating } from '@material-ui/lab';
 
 import classes from './ReviewDetails.module.css';
 import { AuthContext } from '../../../context/auth-context';
+import Comments from '../../../containers/Comments/Comments';
 
 const ReviewDetails = (props) => {
 	const review = props.location.state.review;
@@ -20,8 +21,6 @@ const ReviewDetails = (props) => {
 	const [isCreator, setIsCreator] = useState(false);
 	
 	useEffect(() => {
-		console.log(review);
-		
 		if (userId === review.creator._id) {
 			setIsCreator(true);
 		}
@@ -74,12 +73,13 @@ const ReviewDetails = (props) => {
 			</Grid>
 			<img src={review.videoGame.imageUrl} alt={review.videoGame.title} className={classes.Image} />
 			<Typography gutterBottom variant="body2" component="h5">
-				Written By {review.creator.username}
+				Written by {review.creator.username}
 			</Typography>
 			<Typography variant="body1" component="p">
 				{review.body}
 			</Typography>
 			{userReviewsButton}
+			<Comments reviewId={review.reviewId} />
 		</Container>
 	);
 };

@@ -1,0 +1,17 @@
+.Form {
+    margin: 30px 0;
+}
+
+.Form > .Input {
+    margin: 20px 0;
+}
+
+.Center {
+    text-align: center;
+    margin: 15px auto !important;
+    display: block !important;
+}
+
+.Button {
+    margin: 15px 0 !important;
+}

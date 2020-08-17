@@ -8,18 +8,15 @@ import {
 	Typography
 } from '@material-ui/core';
 
-import axios from '../../shared/axios';
 import VideoGame from '../../components/VideoGame/VideoGame';
 import classes from './VideoGames.module.css';
 import { AuthContext } from '../../context/auth-context';
 import { VideoGameContext } from '../../context/video-game-context';
-import { getErrorMessage } from '../../shared/utility';
 import Alert from '../../components/UI/Alert/Alert';
 
 const VideoGames = (props) => {
 	const videoGameContext = useContext(VideoGameContext);
 	const isAdmin = useContext(AuthContext).isAdmin;
-	const [videoGames, setVideoGames] = useState([]);
 	const [alert, setAlert] = useState({
 		open: false,
 		severity: 'success',
@@ -46,7 +43,7 @@ const VideoGames = (props) => {
 		);
 	} else {
 		videoGameList = videoGameContext.videoGames.map((videoGame) => (
-			<Grid item key={videoGame.videoGameId} xs={6}>
+			<Grid item key={videoGame.videoGameId} xs={12} md={6}>
 				<VideoGame {...videoGame} />
 			</Grid>
 		));
