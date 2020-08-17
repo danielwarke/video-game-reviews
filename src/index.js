@@ -7,13 +7,16 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 
 import AuthProvider from './context/auth-context';
+import VideoGameProvider from './context/video-game-context';
 
 ReactDOM.render(
 	<React.StrictMode>
 		<AuthProvider>
-			<BrowserRouter>
-				<App/>
-			</BrowserRouter>
+			<VideoGameProvider>
+				<BrowserRouter>
+					<App/>
+				</BrowserRouter>
+			</VideoGameProvider>
 		</AuthProvider>
 	</React.StrictMode>,
 	document.getElementById('root')

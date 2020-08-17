@@ -20,7 +20,12 @@ import Alert from '../../UI/Alert/Alert';
 import {getErrorMessage} from '../../../shared/utility';
 
 const EditVideoGame = (props) => {
-	const [videoGame, setVideoGame] = useState(props.location.state ? props.location.state.videoGame : {});
+	const [videoGame, setVideoGame] = useState(props.location.state ? props.location.state.videoGame : {
+		title: '',
+		imageUrl: '',
+		description: ''
+	});
+	
 	const [loading, setLoading] = useState(false);
 	const [alert, setAlert] = useState({
 		open: false,
@@ -43,8 +48,6 @@ const EditVideoGame = (props) => {
 	};
 	
 	const createVideoGame = (title, description, imageUrl) => {
-		console.log('CREATE', title, description, imageUrl);
-		
 		axios.post('/video-games', {
 			title: title,
 			description: description,
@@ -147,14 +150,14 @@ const EditVideoGame = (props) => {
 					label="Title"
 					value={videoGameForm.title}
 					fullWidth
-					onChange={(e) => inputChangedHandler(e, 'title')}
+					onChange={e => inputChangedHandler(e, 'title')}
 					required />
 				<TextField
 					className={classes.Input}
 					label="Image Url"
 					value={videoGameForm.imageUrl}
 					fullWidth
-					onChange={(e) => inputChangedHandler(e, 'imageUrl')}
+					onChange={e => inputChangedHandler(e, 'imageUrl')}
 					required />
 				<Typography gutterBottom variant="h5" component="h5">
 					Image Preview:
@@ -167,7 +170,7 @@ const EditVideoGame = (props) => {
 					fullWidth
 					required
 					multiline
-					onChange={(e) => inputChangedHandler(e, 'description')}
+					onChange={e => inputChangedHandler(e, 'description')}
 					rowsMax={10} />
 				{button}
 				<Alert

@@ -12,13 +12,14 @@ import axios from '../../shared/axios';
 import VideoGame from '../../components/VideoGame/VideoGame';
 import classes from './VideoGames.module.css';
 import { AuthContext } from '../../context/auth-context';
+import { VideoGameContext } from '../../context/video-game-context';
 import { getErrorMessage } from '../../shared/utility';
 import Alert from '../../components/UI/Alert/Alert';
 
 const VideoGames = (props) => {
+	const videoGameContext = useContext(VideoGameContext);
 	const isAuth = useContext(AuthContext).token !== null;
 	const [videoGames, setVideoGames] = useState([]);
-	const [loading, setLoading] = useState(false);
 	const [alert, setAlert] = useState({
 		open: false,
 		severity: 'success',
@@ -26,35 +27,8 @@ const VideoGames = (props) => {
 	});
 	
 	useEffect(() => {
-		setLoading(true);
-		
-		axios.get('/video-games').then(response => {
-			setLoading(false);
-			
-			const fetchedVideoGames = response.data.videoGames;
-			fetchedVideoGames.forEach(videoGame => {
-				videoGame.videoGameId = videoGame._id;
-			});
-			
-			setVideoGames(fetchedVideoGames);
-		}).catch(err => {
-			setLoading(false);
-			
-			setAlert({
-				open: true,
-				severity: 'error',
-				message: getErrorMessage(err)
-			});
-		});
+		videoGameContext.getVideoGames();
 	}, []);
-	
-	// {
-	// 	videoGameId: 1,
-	// 		title: 'Paper Mario: The Origami King',
-	// 	description: 'A single player adventure game developer by Nintendo',
-	// 	imageUrl: 'https://images.nintendolife.com/cfb927ec2c8d0/1280x720.jpg',
-	// 	averageRating: 4
-	// }
 	
 	const createButtonHandler = () => {
 		props.history.push('/video-game/create');
@@ -62,7 +36,7 @@ const VideoGames = (props) => {
 	
 	let videoGameList;
 	
-	if (!videoGames.length) {
+	if (!videoGameContext.videoGames.length) {
 		videoGameList = (
 			<Grid item xs={12}>
 				<Typography gutterBottom variant="h5" component="h5">
@@ -71,7 +45,7 @@ const VideoGames = (props) => {
 			</Grid>
 		);
 	} else {
-		videoGameList = videoGames.map((videoGame) => (
+		videoGameList = videoGameContext.videoGames.map((videoGame) => (
 			<Grid item key={videoGame.videoGameId} xs={6}>
 				<VideoGame {...videoGame} />
 			</Grid>
