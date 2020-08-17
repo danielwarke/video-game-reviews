@@ -5,3 +5,7 @@
 .Form > .Input {
     margin: 20px 0;
 }
+
+.Button {
+    margin-right: 15px !important;
+}

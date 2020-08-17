@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { withRouter } from 'react-router-dom';
 
 import {
@@ -15,8 +15,10 @@ import Review from '../../components/Review/Review';
 import { getErrorMessage } from '../../shared/utility';
 import Alert from '../../components/UI/Alert/Alert';
 import classes from './Reviews.module.css';
+import { AuthContext } from '../../context/auth-context';
 
 const Reviews = (props) => {
+	const isAuth = useContext(AuthContext).token !== null;
 	const [reviews, setReviews] = useState([]);
 	const [loading, setLoading] = useState(false);
 	const [alert, setAlert] = useState({
@@ -74,7 +76,8 @@ const Reviews = (props) => {
 	};
 	
 	let reviewList;
-	let noneFoundMessage = null;
+	let noneFoundMessage;
+	let writeNewReviewButton;
 	
 	if (!reviews.length) {
 		if (loading) {
@@ -92,14 +95,20 @@ const Reviews = (props) => {
 		));
 	}
 	
-	return (
-		<Container maxWidth="sm" className={classes.Reviews}>
-			{noneFoundMessage}
+	if (isAuth) {
+		writeNewReviewButton = (
 			<Button
 				className={classes.Center}
 				variant="contained"
 				color="secondary"
 				onClick={writeNewReviewButtonHandler}>Write New Review</Button>
+		);
+	}
+	
+	return (
+		<Container maxWidth="sm" className={classes.Reviews}>
+			{noneFoundMessage}
+			{writeNewReviewButton}
 			{reviewList}
 			<Alert
 				open={alert.open}

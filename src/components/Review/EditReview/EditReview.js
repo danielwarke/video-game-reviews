@@ -12,7 +12,8 @@ import {
 } from '@material-ui/core'
 
 import {
-	Save as SaveIcon
+	Save as SaveIcon,
+	Delete as DeleteIcon
 } from '@material-ui/icons';
 
 import { Rating } from '@material-ui/lab';
@@ -22,6 +23,7 @@ import { AuthContext } from '../../../context/auth-context';
 import { VideoGameContext } from '../../../context/video-game-context';
 import {getErrorMessage} from '../../../shared/utility';
 import Alert from '../../UI/Alert/Alert';
+import Confirmation from '../../UI/Confirmation/Confirmation';
 import axios from '../../../shared/axios';
 
 const EditReview = (props) => {
@@ -34,6 +36,9 @@ const EditReview = (props) => {
 	});
 	
 	const [loading, setLoading] = useState(false);
+	const [deleteLoading, setDeleteLoading] = useState(false);
+	const [confirmOpen, setConfirmOpen] = useState(false);
+	
 	const [alert, setAlert] = useState({
 		open: false,
 		severity: 'success',
@@ -105,6 +110,33 @@ const EditReview = (props) => {
 		});
 	};
 	
+	const deleteReview = () => {
+		setDeleteLoading(true);
+		setConfirmOpen(false);
+		
+		axios.delete('/review/' + review.reviewId, axiosConfig).then(response => {
+			setDeleteLoading(false);
+			
+			setAlert({
+				open: true,
+				severity: 'warning',
+				message: 'Review Deleted Successfully'
+			});
+			
+			setTimeout(() => {
+				props.history.replace('/');
+			}, 1500);
+		}).catch(err => {
+			setDeleteLoading(false);
+			
+			setAlert({
+				open: true,
+				severity: 'error',
+				message: getErrorMessage(err)
+			});
+		});
+	};
+	
 	const editReviewHandler = (event) => {
 		event.preventDefault();
 		
@@ -157,7 +189,7 @@ const EditReview = (props) => {
 				style={{ width: '100%' }}
 				labelId="videoGameSelect"
 				value={reviewForm.videoGameId}
-				inputProps={{ readOnly: review.reviewId }}
+				inputProps={{ readOnly: !!review.reviewId }}
 				onChange={e => inputChangedHandler(e, 'videoGameId')}>
 				{videoGameContext.videoGames.map(videoGame => (
 					<MenuItem key={videoGame.videoGameId} value={videoGame.videoGameId}>{videoGame.title}</MenuItem>
@@ -166,9 +198,10 @@ const EditReview = (props) => {
 		);
 	}
 	
-	let button = <Button
+	let saveButton = <Button
 		variant="contained"
 		type="submit"
+		className={classes.Button}
 		color="primary"
 		size="large"
 		startIcon={<SaveIcon />}>
@@ -176,7 +209,26 @@ const EditReview = (props) => {
 	</Button>;
 	
 	if (loading) {
-		button = <CircularProgress />;
+		saveButton = <CircularProgress />;
+	}
+	
+	let deleteButton = null;
+	
+	if (review.reviewId) {
+		deleteButton = <Button
+			variant="contained"
+			type="button"
+			className={classes.Button}
+			onClick={() => setConfirmOpen(true)}
+			color="secondary"
+			size="large"
+			startIcon={<DeleteIcon />}>
+			Delete
+		</Button>;
+	}
+	
+	if (deleteLoading) {
+		deleteButton = <CircularProgress />;
 	}
 	
 	return (
@@ -210,12 +262,19 @@ const EditReview = (props) => {
 					required
 					multiline
 					rowsMax={25} />
-				{button}
+				{saveButton}
+				{deleteButton}
 				<Alert
 					open={alert.open}
 					severity={alert.severity}
 					message={alert.message}
 					onClose={handleAlertClosed}  />
+				<Confirmation
+					open={confirmOpen}
+					title="Delete Review?"
+					content="Are you sure you want to delete this review?"
+					onClose={() => setConfirmOpen(false)}
+					onConfirm={deleteReview} />
 			</form>
 		</Container>
 	);
