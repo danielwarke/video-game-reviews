@@ -138,25 +138,32 @@ const EditVideoGame = (props) => {
 	return (
 		<Container maxWidth="sm" className={classes.EditVideoGame}>
 			<form onSubmit={editVideoGameHandler} className={classes.Form}>
-				<Typography gutterBottom variant="h2" component="h1">{(videoGame.videoGameId ? 'Edit' : 'Add') + ' Video Game'}</Typography>
+				<Typography
+					gutterBottom
+					variant="h2"
+					component="h1">{(videoGame.videoGameId ? 'Edit' : 'Add') + ' Video Game'}</Typography>
 				<TextField
 					className={classes.Input}
 					label="Title"
-					value={videoGame.title}
+					value={videoGameForm.title}
 					fullWidth
 					onChange={(e) => inputChangedHandler(e, 'title')}
 					required />
 				<TextField
 					className={classes.Input}
 					label="Image Url"
-					value={videoGame.imageUrl}
+					value={videoGameForm.imageUrl}
 					fullWidth
 					onChange={(e) => inputChangedHandler(e, 'imageUrl')}
 					required />
+				<Typography gutterBottom variant="h5" component="h5">
+					Image Preview:
+				</Typography>
+				<img src={videoGame.imageUrl} alt="Image Preview" className={classes.Image} />
 				<TextField
 					className={classes.Input}
-					label="Description"
-					value={videoGame.description}
+					label="Game Description"
+					value={videoGameForm.description}
 					fullWidth
 					required
 					multiline

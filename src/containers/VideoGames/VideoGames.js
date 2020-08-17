@@ -110,6 +110,8 @@ const VideoGames = (props) => {
 					</Typography>
 				</Grid>
 				{createButton}
+			</Grid>
+			<Grid container spacing={3} justify="space-between">
 				{videoGameList}
 				<Alert
 					open={alert.open}

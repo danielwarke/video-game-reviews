@@ -6,7 +6,7 @@ export const updateObject = (oldObject, updatedProperties) => {
 };
 
 export const getErrorMessage = (err) => {
-	const error = err.response.data;
+	const error = err.response && err.response.data ? err.response.data : {};
 	let message = error.data && error.data.length && error.data[0].msg ? error.data[0].msg : error.message;
 	if (!message) {
 		message = 'Something went wrong!'
