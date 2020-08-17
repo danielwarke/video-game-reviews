@@ -79,9 +79,12 @@ const Auth = (props) => {
 			setLoading(false);
 			const token = response.data.token;
 			const userId = response.data.userId;
+			const username = response.data.username;
+			const email = response.data.email;
 			const expiresIn = response.data.expiresIn;
+			const isAdmin = response.data.admin;
 			
-			authContext.login(token, userId, expiresIn);
+			authContext.login(token, userId, username, email, isAdmin, expiresIn);
 			props.history.replace('/');
 		}).catch(err => {
 			setLoading(false);

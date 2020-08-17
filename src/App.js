@@ -8,6 +8,7 @@ import VideoGames from './containers/VideoGames/VideoGames';
 import EditVideoGame from './components/VideoGame/EditVideoGame/EditVideoGame';
 import EditReview from './components/Review/EditReview/EditReview';
 import Auth from './containers/Auth/Auth';
+import User from './components/User/User';
 import { AuthContext } from './context/auth-context';
 
 function App (props) {
@@ -38,6 +39,7 @@ function App (props) {
 				<Route key="edit-review" path="/review/:reviewId/edit" component={EditReview} />
 				<Route key="create-video-game" path="/video-game/create" component={EditVideoGame} />
 				<Route key="edit-video-game" path="/video-game/:videoGameId/edit" component={EditVideoGame} />
+				<Route key="user" path="/user" component={User} />
 				<Route key="reviews" path="/" component={Reviews} />
 			</Switch>
 		);

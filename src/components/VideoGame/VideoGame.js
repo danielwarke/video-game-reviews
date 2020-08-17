@@ -16,7 +16,7 @@ import classes from './VideoGame.module.css';
 import { AuthContext } from '../../context/auth-context';
 
 const VideoGame = (props) => {
-	const isAuth = useContext(AuthContext).token !== null;
+	const isAdmin = useContext(AuthContext).isAdmin;
 	
 	const videoGameClickedHandler = () => {
 		props.history.push('/reviews?videoGame=' + props.videoGameId);
@@ -36,7 +36,7 @@ const VideoGame = (props) => {
 		});
 	};
 	
-	const editButton = isAuth ? <Button size="small" onClick={editButtonHandler}>Edit</Button> : null;
+	const editButton = isAdmin ? <Button size="small" onClick={editButtonHandler}>Edit</Button> : null;
 	
 	return (
 		<React.Fragment>

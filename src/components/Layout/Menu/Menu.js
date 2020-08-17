@@ -40,7 +40,7 @@ const Menu = (props) => {
 	const menuOptions = [
 		{
 			icon: <Stars />,
-			text: 'Reviews',
+			text: 'Latest Reviews',
 			path: '/'
 		},
 		{

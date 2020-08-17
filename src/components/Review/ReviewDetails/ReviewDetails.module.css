@@ -5,4 +5,9 @@
 .Image {
     max-width: 100%;
     display: block;
+    margin: 15px 0;
+}
+
+.UserButton {
+    margin: 20px 0 !important;
 }

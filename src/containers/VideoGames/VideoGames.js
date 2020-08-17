@@ -18,7 +18,7 @@ import Alert from '../../components/UI/Alert/Alert';
 
 const VideoGames = (props) => {
 	const videoGameContext = useContext(VideoGameContext);
-	const isAuth = useContext(AuthContext).token !== null;
+	const isAdmin = useContext(AuthContext).isAdmin;
 	const [videoGames, setVideoGames] = useState([]);
 	const [alert, setAlert] = useState({
 		open: false,
@@ -60,7 +60,7 @@ const VideoGames = (props) => {
 		</Grid>
 	);
 	
-	if (!isAuth) {
+	if (!isAdmin) {
 		createButton = null;
 	}
 	

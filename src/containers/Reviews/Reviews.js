@@ -1,11 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import {Container, Typography} from '@material-ui/core';
+import { withRouter } from 'react-router-dom';
+
+import {
+	Container,
+	Typography,
+	CircularProgress,
+	Button
+} from '@material-ui/core';
+
 import * as queryString from 'query-string';
 
 import axios from '../../shared/axios';
 import Review from '../../components/Review/Review';
 import { getErrorMessage } from '../../shared/utility';
 import Alert from '../../components/UI/Alert/Alert';
+import classes from './Reviews.module.css';
 
 const Reviews = (props) => {
 	const [reviews, setReviews] = useState([]);
@@ -60,14 +69,23 @@ const Reviews = (props) => {
 		});
 	};
 	
+	const writeNewReviewButtonHandler = () => {
+		props.history.push('/review/create');
+	};
+	
 	let reviewList;
+	let noneFoundMessage = null;
 	
 	if (!reviews.length) {
-		reviewList = (
-			<Typography gutterBottom variant="h4" component="h4" style={{ margin: '20px 0' }}>
-				No Reviews found!
-			</Typography>
-		);
+		if (loading) {
+			reviewList = <CircularProgress className={classes.Center} />;
+		} else {
+			noneFoundMessage = (
+				<Typography gutterBottom variant="h4" component="h4" className={classes.Center}>
+					No Reviews found!
+				</Typography>
+			);
+		}
 	} else {
 		reviewList = reviews.map(review => (
 			<Review key={review.reviewId} {...review} />
@@ -75,7 +93,13 @@ const Reviews = (props) => {
 	}
 	
 	return (
-		<Container maxWidth="sm">
+		<Container maxWidth="sm" className={classes.Reviews}>
+			{noneFoundMessage}
+			<Button
+				className={classes.Center}
+				variant="contained"
+				color="secondary"
+				onClick={writeNewReviewButtonHandler}>Write New Review</Button>
 			{reviewList}
 			<Alert
 				open={alert.open}
@@ -86,4 +110,4 @@ const Reviews = (props) => {
 	);
 };
 
-export default Reviews;
+export default withRouter(Reviews);

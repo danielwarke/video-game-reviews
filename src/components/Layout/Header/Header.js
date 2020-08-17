@@ -1,12 +1,21 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { withRouter } from 'react-router-dom';
 
+import {
+	AppBar,
+	Toolbar,
+	IconButton,
+	Typography,
+	Button
+} from '@material-ui/core';
+
+import {
+	AccountBox as AccountBoxIcon,
+	ExitToApp as ExitToAppIcon,
+	VpnKey as VpnKeyIcon
+} from '@material-ui/icons';
+
 import { makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
 
 import Menu from '../Menu/Menu';
 import { AuthContext } from '../../../context/auth-context';
@@ -20,7 +29,8 @@ const useStyles = makeStyles((theme) => ({
 	},
 	title: {
 		flexGrow: 1,
-		textAlign: 'center'
+		textAlign: 'center',
+		margin: '0 auto'
 	}
 }));
 
@@ -37,20 +47,33 @@ const Header = (props) => {
 		props.history.replace('/');
 	};
 	
-	let loginButton;
+	const userButtonHandler = () => {
+		props.history.push('/user');
+	};
+	
+	let authButton;
+	
+	const loginButton = <Button color="inherit" startIcon={<VpnKeyIcon />} onClick={loginButtonHandler}>Login</Button>;
+	const logoutButton = <Button color="inherit" startIcon={<ExitToAppIcon />} onClick={logoutButtonHandler}>Logout</Button>;
 	
 	switch (authContext.loginButton) {
 		case 'Login':
-			loginButton = <Button color="inherit" onClick={loginButtonHandler}>Login</Button>;
+			authButton = loginButton;
 			break;
 		case 'Logout':
-			loginButton = <Button color="inherit" onClick={logoutButtonHandler}>Logout</Button>;
+			authButton = logoutButton;
 			break;
 		case null:
-			loginButton = null;
+			authButton = null;
 			break;
 		default:
-			loginButton = <Button color="inherit" onClick={loginButtonHandler}>Login</Button>;
+			authButton = loginButton;
+	}
+	
+	let userButton;
+	
+	if (authContext.token !== null && authContext.username) {
+		userButton = <Button startIcon={<AccountBoxIcon />} color="inherit" onClick={userButtonHandler}>{authContext.username}</Button>;
 	}
 	
 	return (
@@ -62,7 +85,8 @@ const Header = (props) => {
 					<Typography variant="h6" className={classes.title}>
 						Video Game Reviews
 					</Typography>
-					{loginButton}
+					{userButton}
+					{authButton}
 				</Toolbar>
 			</AppBar>
 	);
