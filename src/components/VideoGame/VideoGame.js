@@ -19,7 +19,7 @@ const VideoGame = (props) => {
 	const isAuth = useContext(AuthContext).token !== null;
 	
 	const videoGameClickedHandler = () => {
-		props.history.push('/');
+		props.history.push('/reviews?videoGame=' + props.videoGameId);
 	};
 	
 	const editButtonHandler = () => {

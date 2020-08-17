@@ -157,6 +157,7 @@ const EditReview = (props) => {
 				style={{ width: '100%' }}
 				labelId="videoGameSelect"
 				value={reviewForm.videoGameId}
+				inputProps={{ readOnly: review.reviewId }}
 				onChange={e => inputChangedHandler(e, 'videoGameId')}>
 				{videoGameContext.videoGames.map(videoGame => (
 					<MenuItem key={videoGame.videoGameId} value={videoGame.videoGameId}>{videoGame.title}</MenuItem>

@@ -41,9 +41,9 @@ const ReviewDetails = (props) => {
 					</Button>
 				</Grid>
 			</Grid>
-			<img src={review.imageUrl} alt={review.videoGame} className={classes.Image} />
+			<img src={review.videoGame.imageUrl} alt={review.videoGame.title} className={classes.Image} />
 			<Typography gutterBottom variant="body2" component="h5">
-				By: {review.creator}
+				By: {review.creator.username}
 			</Typography>
 			<Typography variant="body1" component="p">
 				{review.body}

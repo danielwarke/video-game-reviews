@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Route, Switch } from 'react-router-dom';
 
 import Header from './components/Layout/Header/Header';
@@ -21,24 +21,24 @@ function App (props) {
 	
 	let routes = (
 		<Switch>
-			<Route path="/review-details" component={ReviewDetails} />
-			<Route path="/video-games" component={VideoGames} />
-			<Route path="/auth" component={Auth} />
-			<Route path="/" component={Reviews} />
+			<Route key="review-details" path="/review-details" component={ReviewDetails} />
+			<Route key="video-games" path="/video-games" component={VideoGames} />
+			<Route key="auth" path="/auth" component={Auth} />
+			<Route key="reviews" path="/" component={Reviews} />
 		</Switch>
 	);
 	
 	if (isAuth) {
 		routes = (
 			<Switch>
-				<Route path="/review-details" component={ReviewDetails} />
-				<Route path="/video-games" component={VideoGames} />
-				<Route path="/auth" component={Auth} />
-				<Route path="/review/create" exact component={EditReview} />
-				<Route path="/review/:reviewId/edit" component={EditReview} />
-				<Route path="/video-game/create" component={EditVideoGame} />
-				<Route path="/video-game/:videoGameId/edit" component={EditVideoGame} />
-				<Route path="/" component={Reviews} />
+				<Route key="review-details" path="/review-details" component={ReviewDetails} />
+				<Route key="video-games" path="/video-games" component={VideoGames} />
+				<Route key="auth" path="/auth" component={Auth} />
+				<Route key="create-review" path="/review/create" exact component={EditReview} />
+				<Route key="edit-review" path="/review/:reviewId/edit" component={EditReview} />
+				<Route key="create-video-game" path="/video-game/create" component={EditVideoGame} />
+				<Route key="edit-video-game" path="/video-game/:videoGameId/edit" component={EditVideoGame} />
+				<Route key="reviews" path="/" component={Reviews} />
 			</Switch>
 		);
 	}

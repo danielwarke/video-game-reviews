@@ -24,6 +24,8 @@ const Review = (props) => {
 					title: props.title,
 					body: props.body,
 					creator: props.creator,
+					videoGame: props.videoGame,
+					videoGameId: props.videoGame._id,
 					imageUrl: props.imageUrl,
 					rating: props.rating
 				}
@@ -38,11 +40,14 @@ const Review = (props) => {
 					<Typography gutterBottom variant="h5" component="h2">
 						{props.title}
 					</Typography>
+					<Typography gutterBottom variant="body1" color="textSecondary" component="p">
+						By: {props.creator.username}
+					</Typography>
 					<Rating value={props.rating} readOnly />
 					<Typography variant="body1" color="textSecondary" component="p">
-						{props.videoGame}
+						{props.videoGame.title}
 					</Typography>
-					<CardMedia className={classes.Image} image={props.imageUrl} title={props.videoGame} />
+					<CardMedia className={classes.Image} image={props.videoGame.imageUrl} title={props.videoGame.title} />
 					<Typography variant="body2" component="p">
 						{props.body}
 					</Typography>
