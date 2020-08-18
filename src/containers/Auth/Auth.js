@@ -87,7 +87,17 @@ const Auth = (props) => {
 			const isAdmin = response.data.admin;
 			
 			authContext.login(token, userId, username, email, isAdmin, expiresIn);
-			props.history.replace('/');
+			
+			if (response.data.tempPassword) {
+				props.history.replace({
+					pathname: '/user',
+					state: {
+						tempPassword: true
+					}
+				});
+			} else {
+				props.history.replace('/');
+			}
 		}).catch(err => {
 			setLoading(false);
 			
@@ -133,9 +143,7 @@ const Auth = (props) => {
 		setLoginForm(updatedLoginForm);
 	};
 	
-	const forgotPasswordHandler = () => {
-		setConfirmOpen(false);
-		
+	const forgotPasswordButtonHandler = () => {
 		if (!loginForm.email) {
 			setAlert({
 				open: true,
@@ -146,6 +154,11 @@ const Auth = (props) => {
 			return;
 		}
 		
+		setConfirmOpen(true);
+	};
+	
+	const forgotPassword = () => {
+		setConfirmOpen(false);
 		setLoading(true);
 		
 		axios.post('/forgot-password', { email: loginForm.email }).then(response => {
@@ -178,7 +191,7 @@ const Auth = (props) => {
 				startIcon={<LockOpen />}>
 				{isSignup ? 'Sign Up' : 'Login'}
 			</Button>
-			<div>
+			<div style={{ marginTop: '15px' }}>
 				{
 					isSignup ? null :
 						<Button
@@ -186,7 +199,7 @@ const Auth = (props) => {
 							variant="contained"
 							type="button"
 							size="small"
-							onClick={() => setConfirmOpen(true)}>
+							onClick={forgotPasswordButtonHandler}>
 							Forgot Password?
 						</Button>
 				}
@@ -208,7 +221,7 @@ const Auth = (props) => {
 	
 	return (
 		<Container maxWidth="sm" className={classes.Auth}>
-			<form onSubmit={authSubmitHandler} className={classes.Form} autoComplete={false}>
+			<form onSubmit={authSubmitHandler} className={classes.Form} autoComplete="false">
 				<TextField
 					className={classes.Input}
 					label="Email Address"
@@ -240,9 +253,9 @@ const Auth = (props) => {
 				<Confirmation
 					open={confirmOpen}
 					title="Forgot Password?"
-					content="When you click confirm we will send you a new temporary password."
+					content="After clicking confirm we will send you a new temporary password."
 					onClose={() => setConfirmOpen(false)}
-					onConfirm={forgotPasswordHandler} />
+					onConfirm={forgotPassword} />
 			</form>
 		</Container>
 	);
