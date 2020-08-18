@@ -80,6 +80,10 @@ const EditVideoGame = (props) => {
 				severity: 'success',
 				message: response.data.message
 			});
+			
+			setTimeout(() => {
+				props.history.push('/video-games');
+			}, 500);
 		}).catch(err => {
 			setLoading(false);
 			
@@ -162,7 +166,7 @@ const EditVideoGame = (props) => {
 				<Typography gutterBottom variant="h5" component="h5">
 					Image Preview:
 				</Typography>
-				<img src={videoGame.imageUrl} alt="Image Preview" className={classes.Image} />
+				{videoGameForm.imageUrl ? <img src={videoGameForm.imageUrl} alt="Image Preview" className={classes.Image} /> : null}
 				<TextField
 					className={classes.Input}
 					label="Game Description"

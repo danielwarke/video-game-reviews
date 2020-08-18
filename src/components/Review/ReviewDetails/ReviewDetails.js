@@ -68,13 +68,16 @@ const ReviewDetails = (props) => {
 						{review.title}
 					</Typography>
 					<Rating value={review.rating} readOnly size="large" />
+					<Typography gutterBottom variant="subtitle1" component="h2">
+						{review.videoGame.title}
+					</Typography>
+					<Typography gutterBottom variant="subtitle2" component="h3">
+						Reviewed by {review.creator.username}
+					</Typography>
 				</Grid>
 				{editButton}
 			</Grid>
 			<img src={review.videoGame.imageUrl} alt={review.videoGame.title} className={classes.Image} />
-			<Typography gutterBottom variant="body2" component="h5">
-				Written by {review.creator.username}
-			</Typography>
 			<Typography variant="body1">
 				{review.body}
 			</Typography>

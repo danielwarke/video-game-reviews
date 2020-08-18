@@ -49,7 +49,7 @@ const Review = (props) => {
 					</Typography>
 					<CardMedia className={classes.Image} image={props.videoGame.imageUrl} title={props.videoGame.title} />
 					<Typography variant="body2" component="p">
-						{props.body}
+						{props.bodyPreview}
 					</Typography>
 				</CardContent>
 				<CardActions>

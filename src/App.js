@@ -1,6 +1,8 @@
 import React, { useContext, useEffect } from 'react';
 import { Route, Switch } from 'react-router-dom';
 
+import { createMuiTheme, MuiThemeProvider } from '@material-ui/core';
+
 import Header from './components/Layout/Header/Header';
 import Reviews from './containers/Reviews/Reviews';
 import ReviewDetails from './components/Review/ReviewDetails/ReviewDetails';
@@ -10,6 +12,17 @@ import EditReview from './components/Review/EditReview/EditReview';
 import Auth from './containers/Auth/Auth';
 import User from './components/User/User';
 import { AuthContext } from './context/auth-context';
+
+const theme = createMuiTheme({
+	palette: {
+		primary: {
+			main: '#7e57c2'
+		},
+		secondary: {
+			main: '#ffd54f'
+		}
+	}
+});
 
 function App (props) {
 	const token = localStorage.getItem('token');
@@ -46,10 +59,10 @@ function App (props) {
 	}
 	
 	return (
-		<div>
+		<MuiThemeProvider theme={theme}>
             <Header />
 			{routes}
-		</div>
+		</MuiThemeProvider>
 	);
 }
 

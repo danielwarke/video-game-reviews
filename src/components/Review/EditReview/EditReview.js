@@ -99,6 +99,10 @@ const EditReview = (props) => {
 				severity: 'success',
 				message: response.data.message
 			});
+			
+			setTimeout(() => {
+				props.history.push('/review-details/' + review.reviewId);
+			}, 500);
 		}).catch(err => {
 			setLoading(false);
 			
@@ -198,15 +202,17 @@ const EditReview = (props) => {
 		);
 	}
 	
-	let saveButton = <Button
-		variant="contained"
-		type="submit"
-		className={classes.Button}
-		color="primary"
-		size="large"
-		startIcon={<SaveIcon />}>
-		Save
-	</Button>;
+	let saveButton = (
+		<Button
+			variant="contained"
+			type="submit"
+			className={classes.Button}
+			color="primary"
+			size="large"
+			startIcon={<SaveIcon />}>
+			Save
+		</Button>
+	);
 	
 	if (loading) {
 		saveButton = <CircularProgress />;
@@ -220,7 +226,7 @@ const EditReview = (props) => {
 			type="button"
 			className={classes.Button}
 			onClick={() => setConfirmOpen(true)}
-			color="secondary"
+			color="warning"
 			size="large"
 			startIcon={<DeleteIcon />}>
 			Delete

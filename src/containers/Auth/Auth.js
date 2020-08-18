@@ -17,6 +17,7 @@ import classes from './Auth.module.css';
 import { AuthContext } from '../../context/auth-context';
 import { getErrorMessage } from '../../shared/utility';
 import Alert from '../../components/UI/Alert/Alert';
+import Confirmation from '../../components/UI/Confirmation/Confirmation';
 
 const Auth = (props) => {
 	const authContext = useContext(AuthContext);
@@ -28,6 +29,7 @@ const Auth = (props) => {
 		message: ''
 	});
 	
+	const [confirmOpen, setConfirmOpen] = useState(false);
 	const [loading, setLoading] = useState(false);
 	const [loginForm, setLoginForm] = useState({
 		username: '',
@@ -131,8 +133,38 @@ const Auth = (props) => {
 		setLoginForm(updatedLoginForm);
 	};
 	
-	const toggleSignUpHandler = () => {
-		setIsSignup(!isSignup);
+	const forgotPasswordHandler = () => {
+		setConfirmOpen(false);
+		
+		if (!loginForm.email) {
+			setAlert({
+				open: true,
+				severity: 'warning',
+				message: 'Please enter an email address first.'
+			});
+			
+			return;
+		}
+		
+		setLoading(true);
+		
+		axios.post('/forgot-password', { email: loginForm.email }).then(response => {
+			setLoading(false);
+			
+			setAlert({
+				open: true,
+				severity: 'success',
+				message: response.data.message
+			});
+		}).catch(err => {
+			setLoading(false);
+			
+			setAlert({
+				open: true,
+				severity: 'error',
+				message: getErrorMessage(err)
+			});
+		});
 	};
 	
 	let buttons = (
@@ -146,15 +178,27 @@ const Auth = (props) => {
 				startIcon={<LockOpen />}>
 				{isSignup ? 'Sign Up' : 'Login'}
 			</Button>
-			<Button
-				className={classes.Button}
-				variant="contained"
-				type="button"
-				color="secondary"
-				size="large"
-				onClick={toggleSignUpHandler}>
-				{isSignup ? 'Already have an account?' : 'Don\'t have an account?'}
-			</Button>
+			<div>
+				{
+					isSignup ? null :
+						<Button
+							className={classes.Button}
+							variant="contained"
+							type="button"
+							size="small"
+							onClick={() => setConfirmOpen(true)}>
+							Forgot Password?
+						</Button>
+				}
+				<Button
+					className={classes.Button}
+					variant="contained"
+					type="button"
+					size="small"
+					onClick={() => setIsSignup(!isSignup)}>
+					{isSignup ? 'Already have an account?' : 'Don\'t have an account?'}
+				</Button>
+			</div>
 		</React.Fragment>
 	);
 	
@@ -164,7 +208,7 @@ const Auth = (props) => {
 	
 	return (
 		<Container maxWidth="sm" className={classes.Auth}>
-			<form onSubmit={authSubmitHandler} className={classes.Form}>
+			<form onSubmit={authSubmitHandler} className={classes.Form} autoComplete={false}>
 				<TextField
 					className={classes.Input}
 					label="Email Address"
@@ -193,6 +237,12 @@ const Auth = (props) => {
 					severity={alert.severity}
 					message={alert.message}
 					onClose={handleAlertClosed}  />
+				<Confirmation
+					open={confirmOpen}
+					title="Forgot Password?"
+					content="When you click confirm we will send you a new temporary password."
+					onClose={() => setConfirmOpen(false)}
+					onConfirm={forgotPasswordHandler} />
 			</form>
 		</Container>
 	);

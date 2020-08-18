@@ -51,7 +51,7 @@ const VideoGames = (props) => {
 	
 	let createButton = (
 		<Grid item>
-			<Button variant="contained" onClick={createButtonHandler}>
+			<Button variant="contained" onClick={createButtonHandler} color="secondary">
 				Add New
 			</Button>
 		</Grid>
