@@ -19,6 +19,7 @@ import axios from '../../../shared/axios';
 const NewComment = (props) => {
 	const isAuth = useContext(AuthContext).token !== null;
 	const token = useContext(AuthContext).token;
+	
 	const [isWriting, setIsWriting] = useState(false);
 	const [loading, setLoading] = useState(false);
 	const [newComment, setNewComment] = useState('');
@@ -56,7 +57,10 @@ const NewComment = (props) => {
 				message: 'Your comment has been added.'
 			});
 			
-			props.onCommentCreated(response.data.comment);
+			const comment = response.data.comment;
+			comment.creator = response.data.creator;
+			
+			props.onCommentCreated(comment);
 		}).catch(err => {
 			setLoading(false);
 			

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
 import {
-	Container,
 	Typography,
 	CircularProgress
 } from '@material-ui/core';
@@ -27,9 +26,23 @@ const Comments = (props) => {
 		});
 	}, [props.reviewId]);
 	
-	const onCommentCreated = (comment) => {
+	const onCommentCreated = comment => {
 		const updatedComments = [...comments];
-		updatedComments.unshift(comment);
+		updatedComments.push(comment);
+		setComments(updatedComments);
+	};
+	
+	const onCommentDeleted = commentId => {
+		const updatedComments = comments.filter(comment => {
+			return comment._id !== commentId;
+		});
+		setComments(updatedComments);
+	};
+	
+	const onCommentEdited = (commentId, body) => {
+		const updatedComments = [...comments];
+		const updatedCommentIndex = updatedComments.findIndex(comment => comment._id === commentId);
+		updatedComments[updatedCommentIndex].body = body;
 		setComments(updatedComments);
 	};
 	
@@ -41,7 +54,7 @@ const Comments = (props) => {
 			commentList = <CircularProgress className={classes.Center} />;
 		} else {
 			noneFoundMessage = (
-				<Typography gutterBottom variant="p" component="body1" className={classes.Center}>
+				<Typography gutterBottom variant="body1" component="p" className={classes.Center}>
 					No comments have been written for this review yet.
 				</Typography>
 			);
@@ -52,6 +65,9 @@ const Comments = (props) => {
 				key={comment._id}
 				author={comment.creator.username}
 				commentId={comment._id}
+				reviewId={props.reviewId}
+				onCommentDeleted={onCommentDeleted}
+				onCommentEdited={onCommentEdited}
 				authorId={comment.creator._id}
 				body={comment.body} />
 		));

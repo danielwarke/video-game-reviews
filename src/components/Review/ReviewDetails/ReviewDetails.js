@@ -75,7 +75,7 @@ const ReviewDetails = (props) => {
 			<Typography gutterBottom variant="body2" component="h5">
 				Written by {review.creator.username}
 			</Typography>
-			<Typography variant="body1" component="p">
+			<Typography variant="body1">
 				{review.body}
 			</Typography>
 			{userReviewsButton}

@@ -106,7 +106,7 @@ const Reviews = (props) => {
 	}
 	
 	return (
-		<Container maxWidth="sm" className={classes.Reviews}>
+		<Container maxWidth="md" className={classes.Reviews}>
 			{noneFoundMessage}
 			{writeNewReviewButton}
 			{reviewList}

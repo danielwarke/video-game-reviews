@@ -81,7 +81,7 @@ const Header = (props) => {
 	return (
 			<AppBar position="sticky">
 				<Toolbar>
-					<Grid justify="space-between" container spacing={25} alignItems="center">
+					<Grid justify="space-between" container spacing={10} alignItems="center">
 						<Grid item>
 							<IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
 								<Menu />
