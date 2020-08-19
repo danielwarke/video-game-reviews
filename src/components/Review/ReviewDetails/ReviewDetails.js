@@ -78,7 +78,7 @@ const ReviewDetails = (props) => {
 				{editButton}
 			</Grid>
 			<img src={review.videoGame.imageUrl} alt={review.videoGame.title} className={classes.Image} />
-			<Typography variant="body1">
+			<Typography variant="body1" className={classes.ReviewBody}>
 				{review.body}
 			</Typography>
 			{userReviewsButton}

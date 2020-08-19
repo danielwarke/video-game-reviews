@@ -11,3 +11,7 @@
 .UserButton {
     margin: 20px 0 !important;
 }
+
+.ReviewBody {
+    white-space: pre-wrap;
+}

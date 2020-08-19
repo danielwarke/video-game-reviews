@@ -69,6 +69,15 @@ const EditReview = (props) => {
 		videoGameContext.getVideoGames();
 	}, []);
 	
+	const returnToReviewDetails = () => {
+		props.history.push({
+			pathname: '/review-details/' + review.reviewId,
+			state: {
+				review: review
+			}
+		});
+	};
+	
 	const createReview = (title, rating, body, videoGameId) => {
 		axios.post('/review', {
 			title: title,
@@ -106,8 +115,8 @@ const EditReview = (props) => {
 			});
 			
 			setTimeout(() => {
-				props.history.push('/review-details/' + review.reviewId);
-			}, 500);
+				returnToReviewDetails();
+			}, 1000);
 		}).catch(err => {
 			setLoading(false);
 			
