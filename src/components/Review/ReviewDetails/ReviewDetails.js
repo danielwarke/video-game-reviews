@@ -24,7 +24,7 @@ const ReviewDetails = (props) => {
 		if (userId === review.creator._id) {
 			setIsCreator(true);
 		}
-	}, []);
+	}, [userId, review.creator._id]);
 	
 	const editReviewHandler = () => {
 		props.history.push({

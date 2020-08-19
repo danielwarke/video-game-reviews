@@ -9,16 +9,16 @@ import {
 } from '@material-ui/core';
 
 import {
-	Chat as ChatIcon,
 	Delete as DeleteIcon,
 	Edit as EditIcon
 } from '@material-ui/icons';
 
+import Alert from '../UI/Alert/Alert';
 import classes from './Comment.module.css';
 import { AuthContext } from '../../context/auth-context';
 import Confirmation from '../UI/Confirmation/Confirmation';
 import axios from '../../shared/axios';
-import {getErrorMessage} from '../../shared/utility';
+import { getErrorMessage } from '../../shared/utility';
 
 const Comment = (props) => {
 	const userId = useContext(AuthContext).userId;
@@ -45,7 +45,7 @@ const Comment = (props) => {
 		if (userId === props.authorId) {
 			setIsCreator(true);
 		}
-	}, []);
+	}, [userId, props.authorId]);
 	
 	const inputChangedHandler = (e) => {
 		setCommentBody(e.target.value);
@@ -87,6 +87,17 @@ const Comment = (props) => {
 				severity: 'error',
 				message: getErrorMessage(err)
 			});
+		});
+	};
+	
+	const handleAlertClosed = (event, reason) => {
+		if (reason === 'clickaway') {
+			return;
+		}
+		
+		setAlert({
+			...alert,
+			open: false
 		});
 	};
 	
@@ -161,6 +172,11 @@ const Comment = (props) => {
 				content="Are you sure you want to delete your comment?"
 				onClose={() => setConfirmOpen(false)}
 				onConfirm={deleteComment} />
+			<Alert
+				open={alert.open}
+				severity={alert.severity}
+				message={alert.message}
+				onClose={handleAlertClosed}  />
 		</Card>
 	);
 };

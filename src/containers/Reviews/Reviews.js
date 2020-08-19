@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useCallback } from 'react';
 import { withRouter } from 'react-router-dom';
 
 import {
@@ -21,13 +21,15 @@ const Reviews = (props) => {
 	const isAuth = useContext(AuthContext).token !== null;
 	const [reviews, setReviews] = useState([]);
 	const [loading, setLoading] = useState(false);
+	const [currentPage, setCurrentPage] = useState(1);
+	const [fetchedAllReviews, setFetchedAllReviews] = useState(false);
 	const [alert, setAlert] = useState({
 		open: false,
 		severity: 'success',
 		message: ''
 	});
 	
-	useEffect(() => {
+	const getReviews = () => {
 		setLoading(true);
 		
 		let url = '/reviews';
@@ -41,14 +43,23 @@ const Reviews = (props) => {
 			}
 		}
 		
+		if (currentPage > 1) {
+			url += '?page=' + currentPage;
+		}
+		
 		axios.get(url).then(response => {
 			const fetchedReviews = response.data.reviews;
 			fetchedReviews.forEach(review => {
 				review.reviewId = review._id;
 			});
 			
-			setReviews(fetchedReviews);
+			let updatedReviews = [...reviews];
+			setReviews(updatedReviews.concat(fetchedReviews));
 			setLoading(false);
+			setCurrentPage(currentPage + 1);
+			if (reviews.length >= response.data.totalItems) {
+				setFetchedAllReviews(true);
+			}
 		}).catch(err => {
 			setLoading(false);
 			
@@ -58,6 +69,29 @@ const Reviews = (props) => {
 				message: getErrorMessage(err)
 			});
 		});
+	};
+	
+	const handleScroll = useCallback(() => {
+		if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+			if (loading) {
+				return;
+			}
+			
+			if (fetchedAllReviews) {
+				return;
+			}
+			
+			getReviews();
+		}
+	}, [currentPage, loading]);
+	
+	useEffect(() => {
+		window.addEventListener('scroll', handleScroll);
+		return () => window.removeEventListener('scroll', handleScroll)
+	}, [handleScroll]);
+	
+	useEffect(() => {
+		getReviews();
 	}, [props.history.location]);
 	
 	const handleAlertClosed = (event, reason) => {
@@ -110,6 +144,7 @@ const Reviews = (props) => {
 			{noneFoundMessage}
 			{writeNewReviewButton}
 			{reviewList}
+			{loading && reviews.length ? <CircularProgress className={classes.Center} /> : null}
 			<Alert
 				open={alert.open}
 				severity={alert.severity}

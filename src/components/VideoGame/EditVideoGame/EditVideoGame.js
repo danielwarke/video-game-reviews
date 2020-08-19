@@ -20,7 +20,7 @@ import Alert from '../../UI/Alert/Alert';
 import { getErrorMessage, hasError } from '../../../shared/utility';
 
 const EditVideoGame = (props) => {
-	const [videoGame, setVideoGame] = useState(props.location.state ? props.location.state.videoGame : {
+	const [videoGame] = useState(props.location.state ? props.location.state.videoGame : {
 		title: '',
 		imageUrl: '',
 		description: ''
@@ -179,7 +179,7 @@ const EditVideoGame = (props) => {
 				<Typography gutterBottom variant="h5" component="h5">
 					Image Preview:
 				</Typography>
-				{videoGameForm.imageUrl ? <img src={videoGameForm.imageUrl} alt="Image Preview" className={classes.Image} /> : null}
+				{videoGameForm.imageUrl ? <img src={videoGameForm.imageUrl} alt="Preview" className={classes.Image} /> : null}
 				<TextField
 					className={classes.Input}
 					label="Game Description"
