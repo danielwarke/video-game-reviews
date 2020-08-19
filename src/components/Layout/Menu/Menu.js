@@ -14,7 +14,8 @@ import {
 	Stars,
 	VideogameAsset,
 	Menu as MenuIcon,
-	Create as CreateIcon
+	Create as CreateIcon,
+	Info as InfoIcon
 } from '@material-ui/icons';
 
 import classes from './Menu.module.css';
@@ -52,16 +53,21 @@ const Menu = (props) => {
 	
 	if (isAuth) {
 		menuOptions.push({
-			type: 'divider'
-		});
-		
-		
-		menuOptions.push({
 			icon: <CreateIcon />,
 			text: 'Write New Review',
 			path: '/review/create'
 		});
 	}
+	
+	menuOptions.push({
+		type: 'divider'
+	});
+	
+	menuOptions.push({
+		icon: <InfoIcon />,
+		text: 'About',
+		path: '/about'
+	});
 	
 	const list = menuOptions.map((menuOption, i) => {
 		if (menuOption.type === 'divider') {

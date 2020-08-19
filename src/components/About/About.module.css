@@ -1,0 +1,11 @@
+.About {
+    margin: 50px 0;
+}
+
+.Image {
+    max-width: 75%;
+    margin: 15px auto;
+    display: block;
+    object-fit: cover;
+    border-radius: 50%;
+}

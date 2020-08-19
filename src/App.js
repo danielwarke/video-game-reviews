@@ -11,6 +11,7 @@ import EditVideoGame from './components/VideoGame/EditVideoGame/EditVideoGame';
 import EditReview from './components/Review/EditReview/EditReview';
 import Auth from './containers/Auth/Auth';
 import User from './components/User/User';
+import About from './components/About/About';
 import { AuthContext } from './context/auth-context';
 
 const theme = createMuiTheme({
@@ -38,6 +39,7 @@ function App (props) {
 			<Route key="review-details" path="/review-details" component={ReviewDetails} />
 			<Route key="video-games" path="/video-games" component={VideoGames} />
 			<Route key="auth" path="/auth" component={Auth} />
+			<Route key="about" path="/about" component={About} />
 			<Route key="reviews" path="/" component={Reviews} />
 		</Switch>
 	);
@@ -52,6 +54,7 @@ function App (props) {
 				<Route key="edit-review" path="/review/:reviewId/edit" component={EditReview} />
 				<Route key="create-video-game" path="/video-game/create" component={EditVideoGame} />
 				<Route key="edit-video-game" path="/video-game/:videoGameId/edit" component={EditVideoGame} />
+				<Route key="about" path="/about" component={About} />
 				<Route key="user" path="/user" component={User} />
 				<Route key="reviews" path="/" component={Reviews} />
 			</Switch>
