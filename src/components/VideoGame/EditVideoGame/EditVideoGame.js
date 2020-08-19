@@ -16,6 +16,7 @@ import {
 import axios from '../../../shared/axios';
 import classes from './EditVideoGame.module.css';
 import { AuthContext } from '../../../context/auth-context';
+import { VideoGameContext } from '../../../context/video-game-context';
 import Alert from '../../UI/Alert/Alert';
 import { getErrorMessage, hasError } from '../../../shared/utility';
 
@@ -46,6 +47,7 @@ const EditVideoGame = (props) => {
 	});
 	
 	const token = useContext(AuthContext).token;
+	const videoGameContext = useContext(VideoGameContext);
 	
 	const axiosConfig = {
 		headers: {
@@ -61,7 +63,11 @@ const EditVideoGame = (props) => {
 		}, axiosConfig).then(response => {
 			setLoading(false);
 			
-			props.history.push('/video-games');
+			videoGameContext.getVideoGames(true);
+			
+			setTimeout(() => {
+				props.history.push('/video-games');
+			}, 500);
 		}).catch(err => {
 			setLoading(false);
 			
@@ -86,6 +92,8 @@ const EditVideoGame = (props) => {
 				severity: 'success',
 				message: response.data.message
 			});
+			
+			videoGameContext.getVideoGames(true);
 			
 			setTimeout(() => {
 				props.history.push('/video-games');

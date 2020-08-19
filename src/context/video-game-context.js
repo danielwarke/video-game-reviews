@@ -17,8 +17,8 @@ export default props => {
 		loading: false
 	});
 	
-	const getVideoGames = () => {
-		if (videoGameState.videoGames.length) {
+	const getVideoGames = (fetchAgain) => {
+		if (videoGameState.videoGames.length && !fetchAgain) {
 			return;
 		}
 		

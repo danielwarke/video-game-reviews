@@ -140,6 +140,7 @@ const User = (props) => {
 					className={classes.Input}
 					label="Current Password"
 					value={changePasswordForm.currentPassword}
+					fullWidth
 					type="password"
 					error={formError.currentPassword}
 					onChange={e => inputChangedHandler(e, 'currentPassword')}
@@ -149,6 +150,7 @@ const User = (props) => {
 					label="New Password"
 					value={changePasswordForm.newPassword1}
 					type="password"
+					fullWidth
 					error={formError.newPassword1}
 					onChange={e => inputChangedHandler(e, 'newPassword1')}
 					required />
@@ -158,6 +160,7 @@ const User = (props) => {
 					value={changePasswordForm.newPassword2}
 					error={formError.newPassword2}
 					type="password"
+					fullWidth
 					onChange={e => inputChangedHandler(e, 'newPassword2')}
 					required />
 				{changePasswordSubmitButton}

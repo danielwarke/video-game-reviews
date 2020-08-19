@@ -16,10 +16,10 @@ import { AuthContext } from './context/auth-context';
 const theme = createMuiTheme({
 	palette: {
 		primary: {
-			main: '#7e57c2'
+			main: '#a5d6a7'
 		},
 		secondary: {
-			main: '#ffd54f'
+			main: '#80deea'
 		}
 	}
 });
