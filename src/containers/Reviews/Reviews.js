@@ -106,7 +106,11 @@ const Reviews = (props) => {
 	};
 	
 	const writeNewReviewButtonHandler = () => {
-		props.history.push('/review/create');
+		if (isAuth) {
+			props.history.push('/review/create');
+		} else {
+			props.history.push('/auth');
+		}
 	};
 	
 	let reviewList;
@@ -129,15 +133,13 @@ const Reviews = (props) => {
 		));
 	}
 	
-	if (isAuth) {
-		writeNewReviewButton = (
-			<Button
-				className={classes.Center}
-				variant="contained"
-				color="secondary"
-				onClick={writeNewReviewButtonHandler}>Write New Review</Button>
-		);
-	}
+	writeNewReviewButton = (
+		<Button
+			className={classes.Center}
+			variant="contained"
+			color="secondary"
+			onClick={writeNewReviewButtonHandler}>{isAuth ? 'Write New Review' : 'Login to Write a Review'}</Button>
+	);
 	
 	return (
 		<Container maxWidth="md" className={classes.Reviews}>
