@@ -42,12 +42,12 @@ const VideoGame = (props) => {
 		<React.Fragment>
 			<Card className={classes.VideoGame}>
 				<CardContent>
-					<Typography gutterBottom variant="h5" component="h2">
+					<Typography gutterBottom variant="h5" component="h2" className={classes.Title}>
 						{props.title}
 					</Typography>
 					<Rating value={props.averageRating} readOnly />
 					<CardMedia className={classes.Image} image={props.imageUrl} title={props.title} />
-					<Typography variant="body1" color="textSecondary" component="p">
+					<Typography variant="body1" color="textSecondary" component="p" className={classes.Description}>
 						{props.description}
 					</Typography>
 				</CardContent>

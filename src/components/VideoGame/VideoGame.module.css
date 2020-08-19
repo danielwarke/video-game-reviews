@@ -1,6 +1,13 @@
 .VideoGame {
-    margin: 30px 0;
-    min-height: 350px;
+    height: 400px;
+}
+
+.Title {
+    height: 64px;
+}
+
+.Description {
+    height: 48px;
 }
 
 .Image {

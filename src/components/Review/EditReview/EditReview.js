@@ -261,6 +261,7 @@ const EditReview = (props) => {
 				<Typography
 					gutterBottom
 					variant="h2"
+					className={classes.Title}
 					component="h1">{(review.reviewId ? 'Edit' : 'Write New') + ' Review'}</Typography>
 				<Typography
 					gutterBottom

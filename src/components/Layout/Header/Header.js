@@ -64,7 +64,7 @@ const Header = (props) => {
 					<Hidden smDown>Logout</Hidden>
 				</Button>
 			</Hidden>
-			<Hidden smUp>
+			<Hidden mdUp>
 				<IconButton color="inherit" aria-label="logout" component="span" onClick={logoutButtonHandler}>
 					<ExitToAppIcon />
 				</IconButton>
@@ -96,7 +96,7 @@ const Header = (props) => {
 						{authContext.username}
 					</Button>
 				</Hidden>
-				<Hidden smUp>
+				<Hidden mdUp>
 					<IconButton color="inherit" aria-label="account" component="span" onClick={userButtonHandler}>
 						<AccountBoxIcon />
 					</IconButton>
@@ -108,7 +108,7 @@ const Header = (props) => {
 	return (
 			<AppBar position="sticky">
 				<Toolbar>
-					<Grid justify="space-between" container spacing={10} alignItems="center">
+					<Grid justify="space-between" container spacing={0} alignItems="center">
 						<Grid item>
 							<IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
 								<Menu />

@@ -2,6 +2,10 @@
     margin: 50px 0;
 }
 
+.Title {
+    text-align: center;
+}
+
 .Form > .Input {
     margin: 20px 0;
 }
