@@ -70,10 +70,15 @@ const EditReview = (props) => {
 	}, []);
 	
 	const returnToReviewDetails = () => {
+		const updatedReview = {
+			...review,
+			...reviewForm
+		};
+		
 		props.history.push({
 			pathname: '/review-details/' + review.reviewId,
 			state: {
-				review: review
+				review: updatedReview
 			}
 		});
 	};
