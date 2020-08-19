@@ -47,7 +47,9 @@ const Review = (props) => {
 					<Typography variant="body1" color="textSecondary" component="p">
 						{props.videoGame.title}
 					</Typography>
-					<CardMedia className={classes.Image} image={props.videoGame.imageUrl} title={props.videoGame.title} />
+					<CardMedia>
+						<img src={props.videoGame.imageUrl} alt={props.videoGame.title} className={classes.Image} />
+					</CardMedia>
 					<Typography variant="body2" component="p">
 						{props.bodyPreview}
 					</Typography>
