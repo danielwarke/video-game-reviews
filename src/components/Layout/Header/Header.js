@@ -56,7 +56,21 @@ const Header = (props) => {
 	let authButton;
 	
 	const loginButton = <Button color="inherit" startIcon={<VpnKeyIcon />} onClick={loginButtonHandler}>Login</Button>;
-	const logoutButton = <Button color="inherit" startIcon={<ExitToAppIcon />} onClick={logoutButtonHandler}>Logout</Button>;
+	
+	const logoutButton = (
+		<React.Fragment>
+			<Hidden smDown>
+				<Button color="inherit" startIcon={<ExitToAppIcon />} onClick={logoutButtonHandler}>
+					<Hidden smDown>Logout</Hidden>
+				</Button>
+			</Hidden>
+			<Hidden smUp>
+				<IconButton color="inherit" aria-label="logout" component="span" onClick={logoutButtonHandler}>
+					<ExitToAppIcon />
+				</IconButton>
+			</Hidden>
+		</React.Fragment>
+	);
 	
 	switch (authContext.loginButton) {
 		case 'Login':
@@ -75,7 +89,20 @@ const Header = (props) => {
 	let userButton;
 	
 	if (authContext.token !== null && authContext.username) {
-		userButton = <Button startIcon={<AccountBoxIcon />} color="inherit" onClick={userButtonHandler}>{authContext.username}</Button>;
+		userButton = (
+			<React.Fragment>
+				<Hidden smDown>
+					<Button startIcon={<AccountBoxIcon />} color="inherit" onClick={userButtonHandler}>
+						{authContext.username}
+					</Button>
+				</Hidden>
+				<Hidden smUp>
+					<IconButton color="inherit" aria-label="account" component="span" onClick={userButtonHandler}>
+						<AccountBoxIcon />
+					</IconButton>
+				</Hidden>
+			</React.Fragment>
+		);
 	}
 	
 	return (

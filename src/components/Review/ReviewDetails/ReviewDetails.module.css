@@ -15,3 +15,7 @@
 .ReviewBody {
     white-space: pre-wrap;
 }
+
+.ReviewTitle {
+    word-break: break-word;
+}

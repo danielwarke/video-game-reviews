@@ -5,7 +5,8 @@ import {
 	Container,
 	Typography,
 	Button,
-	Grid
+	Grid,
+	Hidden
 } from '@material-ui/core';
 
 import { Rating } from '@material-ui/lab';
@@ -64,9 +65,16 @@ const ReviewDetails = (props) => {
 		<Container maxWidth="md" className={classes.ReviewDetails}>
 			<Grid container spacing={3} justify="space-between">
 				<Grid item>
-					<Typography gutterBottom variant="h2" component="h1">
-						{review.title}
-					</Typography>
+					<Hidden smDown>
+						<Typography gutterBottom variant="h2" component="h1" className={classes.ReviewTitle}>
+							{review.title}
+						</Typography>
+					</Hidden>
+					<Hidden mdUp>
+						<Typography gutterBottom variant="h4" component="h1" className={classes.ReviewTitle}>
+							{review.title}
+						</Typography>
+					</Hidden>
 					<Rating value={review.rating} readOnly size="large" />
 					<Typography gutterBottom variant="subtitle1" component="h2">
 						{review.videoGame.title}
