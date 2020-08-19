@@ -10,7 +10,7 @@ import {
 
 import {Chat as ChatIcon} from '@material-ui/icons';
 
-import { getErrorMessage } from '../../../shared/utility';
+import { getErrorMessage, hasError } from '../../../shared/utility';
 import Alert from '../../../components/UI/Alert/Alert';
 import {AuthContext} from '../../../context/auth-context';
 import classes from './NewComment.module.css';
@@ -27,6 +27,10 @@ const NewComment = (props) => {
 		open: false,
 		severity: 'success',
 		message: ''
+	});
+	
+	const [formError, setFormError] = useState({
+		newComment: null
 	});
 	
 	const axiosConfig = {
@@ -85,6 +89,10 @@ const NewComment = (props) => {
 	
 	const inputChangedHandler = (event) => {
 		setNewComment(event.target.value);
+		
+		const updatedFormError = { ...formError };
+		updatedFormError.newComment = event.target.required && !event.target.value;
+		setFormError(updatedFormError);
 	};
 	
 	const writeCommentButtonHandler = () => {
@@ -109,6 +117,7 @@ const NewComment = (props) => {
 			variant="contained"
 			className={classes.Button}
 			color="primary"
+			disabled={hasError(formError)}
 			startIcon={<ChatIcon />}
 			type="submit">Post</Button>
 	);
@@ -127,6 +136,7 @@ const NewComment = (props) => {
 					onChange={inputChangedHandler}
 					fullWidth
 					required
+					error={formError.newComment}
 					variant="outlined"
 					multiline
 					rowsMax={10} />

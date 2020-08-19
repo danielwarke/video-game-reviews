@@ -15,7 +15,7 @@ import {
 import axios from '../../shared/axios';
 import classes from './Auth.module.css';
 import { AuthContext } from '../../context/auth-context';
-import { getErrorMessage } from '../../shared/utility';
+import { getErrorMessage, hasError } from '../../shared/utility';
 import Alert from '../../components/UI/Alert/Alert';
 import Confirmation from '../../components/UI/Confirmation/Confirmation';
 
@@ -35,6 +35,11 @@ const Auth = (props) => {
 		username: '',
 		email: '',
 		password: ''
+	});
+	
+	const [formError, setFormError] = useState({
+		email: null,
+		password: null
 	});
 	
 	useEffect(() => {
@@ -140,6 +145,10 @@ const Auth = (props) => {
 		const updatedLoginForm = { ...loginForm };
 		updatedLoginForm[fieldName] = event.target.value;
 		
+		const updatedFormError = { ...formError };
+		updatedFormError[fieldName] = event.target.required && !event.target.value;
+		setFormError(updatedFormError);
+		
 		setLoginForm(updatedLoginForm);
 	};
 	
@@ -186,6 +195,7 @@ const Auth = (props) => {
 				className={classes.Button}
 				variant="contained"
 				type="submit"
+				disabled={hasError(formError)}
 				color="primary"
 				size="large"
 				startIcon={<LockOpen />}>
@@ -226,6 +236,7 @@ const Auth = (props) => {
 					className={classes.Input}
 					label="Email Address"
 					fullWidth
+					error={formError.email}
 					required
 					value={loginForm.email}
 					onChange={(e) => inputChangedHandler(e, 'email')} />
@@ -240,6 +251,7 @@ const Auth = (props) => {
 					className={classes.Input}
 					label="Password"
 					type="password"
+					error={formError.password}
 					fullWidth
 					required
 					value={loginForm.password}

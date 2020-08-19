@@ -17,7 +17,7 @@ import axios from '../../../shared/axios';
 import classes from './EditVideoGame.module.css';
 import { AuthContext } from '../../../context/auth-context';
 import Alert from '../../UI/Alert/Alert';
-import {getErrorMessage} from '../../../shared/utility';
+import { getErrorMessage, hasError } from '../../../shared/utility';
 
 const EditVideoGame = (props) => {
 	const [videoGame, setVideoGame] = useState(props.location.state ? props.location.state.videoGame : {
@@ -37,6 +37,12 @@ const EditVideoGame = (props) => {
 		title: videoGame.title,
 		imageUrl: videoGame.imageUrl,
 		description: videoGame.description
+	});
+	
+	const [formError, setFormError] = useState({
+		title: videoGame.title ? false : null,
+		imageUrl: videoGame.imageUrl ? false : null,
+		description: videoGame.description ? false : null
 	});
 	
 	const token = useContext(AuthContext).token;
@@ -115,6 +121,10 @@ const EditVideoGame = (props) => {
 		const updatedVideoGameForm = { ...videoGameForm };
 		updatedVideoGameForm[fieldName] = event.target.value;
 		
+		const updatedFormError = { ...formError };
+		updatedFormError[fieldName] = event.target.required && !event.target.value;
+		setFormError(updatedFormError);
+		
 		setVideoGameForm(updatedVideoGameForm);
 	};
 	
@@ -134,6 +144,7 @@ const EditVideoGame = (props) => {
 		type="submit"
 		color="primary"
 		size="large"
+		disabled={hasError(formError)}
 		startIcon={<SaveIcon />}>
 		Save
 	</Button>;
@@ -154,6 +165,7 @@ const EditVideoGame = (props) => {
 					label="Title"
 					value={videoGameForm.title}
 					fullWidth
+					error={formError.title}
 					onChange={e => inputChangedHandler(e, 'title')}
 					required />
 				<TextField
@@ -161,6 +173,7 @@ const EditVideoGame = (props) => {
 					label="Image Url"
 					value={videoGameForm.imageUrl}
 					fullWidth
+					error={formError.imageUrl}
 					onChange={e => inputChangedHandler(e, 'imageUrl')}
 					required />
 				<Typography gutterBottom variant="h5" component="h5">
@@ -172,6 +185,7 @@ const EditVideoGame = (props) => {
 					label="Game Description"
 					value={videoGameForm.description}
 					fullWidth
+					error={formError.description}
 					required
 					multiline
 					onChange={e => inputChangedHandler(e, 'description')}

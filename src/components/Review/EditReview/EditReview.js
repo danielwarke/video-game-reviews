@@ -21,7 +21,7 @@ import { Rating } from '@material-ui/lab';
 import classes from './EditReview.module.css';
 import { AuthContext } from '../../../context/auth-context';
 import { VideoGameContext } from '../../../context/video-game-context';
-import {getErrorMessage} from '../../../shared/utility';
+import { getErrorMessage, hasError } from '../../../shared/utility';
 import Alert from '../../UI/Alert/Alert';
 import Confirmation from '../../UI/Confirmation/Confirmation';
 import axios from '../../../shared/axios';
@@ -50,6 +50,11 @@ const EditReview = (props) => {
 		title: review.title,
 		rating: review.rating,
 		body: review.body
+	});
+	
+	const [formError, setFormError] = useState({
+		title: review.title ? false : null,
+		body: review.body ? false : null
 	});
 	
 	const token = useContext(AuthContext).token;
@@ -180,6 +185,10 @@ const EditReview = (props) => {
 		const updatedReviewForm = { ...reviewForm };
 		updatedReviewForm[fieldName] = event.target.value;
 		
+		const updatedFormError = { ...formError };
+		updatedFormError[fieldName] = event.target.required && !event.target.value;
+		setFormError(updatedFormError);
+		
 		setReviewForm(updatedReviewForm);
 	};
 	
@@ -209,6 +218,7 @@ const EditReview = (props) => {
 			className={classes.Button}
 			color="primary"
 			size="large"
+			disabled={hasError(formError)}
 			startIcon={<SaveIcon />}>
 			Save
 		</Button>
@@ -226,7 +236,6 @@ const EditReview = (props) => {
 			type="button"
 			className={classes.Button}
 			onClick={() => setConfirmOpen(true)}
-			color="warning"
 			size="large"
 			startIcon={<DeleteIcon />}>
 			Delete
@@ -240,14 +249,21 @@ const EditReview = (props) => {
 	return (
 		<Container maxWidth="sm" className={classes.EditReview}>
 			<form onSubmit={editReviewHandler} className={classes.Form}>
-				<Typography gutterBottom variant="h2" component="h1">{(review.reviewId ? 'Edit' : 'Write New') + ' Review'}</Typography>
-				<Typography gutterBottom variant="body2" component="h5">
+				<Typography
+					gutterBottom
+					variant="h2"
+					component="h1">{(review.reviewId ? 'Edit' : 'Write New') + ' Review'}</Typography>
+				<Typography
+					gutterBottom
+					variant="body2"
+					component="h5">
 					Video Game
 				</Typography>
 				{videoGameSelect}
 				<TextField
 					className={classes.Input}
 					label="Title"
+					error={formError.title}
 					value={reviewForm.title}
 					onChange={e => inputChangedHandler(e, 'title')}
 					fullWidth
@@ -265,6 +281,7 @@ const EditReview = (props) => {
 					value={reviewForm.body}
 					onChange={e => inputChangedHandler(e, 'body')}
 					fullWidth
+					error={formError.body}
 					required
 					multiline
 					rowsMax={25} />

@@ -11,7 +11,7 @@ import {
 import { AuthContext } from '../../context/auth-context';
 import axios from '../../shared/axios';
 import classes from './User.module.css';
-import {getErrorMessage} from '../../shared/utility';
+import { getErrorMessage, hasError } from '../../shared/utility';
 import Alert from '../UI/Alert/Alert';
 
 const User = (props) => {
@@ -28,6 +28,12 @@ const User = (props) => {
 		currentPassword: '',
 		newPassword1: '',
 		newPassword2: ''
+	});
+	
+	const [formError, setFormError] = useState({
+		currentPassword: null,
+		newPassword1: null,
+		newPassword2: null
 	});
 	
 	const axiosConfig = {
@@ -50,6 +56,10 @@ const User = (props) => {
 	const inputChangedHandler = (event, fieldName) => {
 		const updatedChangePasswordForm = { ...changePasswordForm };
 		updatedChangePasswordForm[fieldName] = event.target.value;
+		
+		const updatedFormError = { ...formError };
+		updatedFormError[fieldName] = event.target.required && !event.target.value;
+		setFormError(updatedFormError);
 		
 		setChangePasswordForm(updatedChangePasswordForm);
 	};
@@ -116,6 +126,7 @@ const User = (props) => {
 			<Button className={classes.Button}
 			        variant="contained"
 			        type="submit"
+			        disabled={hasError(formError)}
 			        color="secondary">Submit</Button>
 		);
 		
@@ -130,6 +141,7 @@ const User = (props) => {
 					label="Current Password"
 					value={changePasswordForm.currentPassword}
 					type="password"
+					error={formError.currentPassword}
 					onChange={e => inputChangedHandler(e, 'currentPassword')}
 					required />
 				<TextField
@@ -137,12 +149,14 @@ const User = (props) => {
 					label="New Password"
 					value={changePasswordForm.newPassword1}
 					type="password"
+					error={formError.newPassword1}
 					onChange={e => inputChangedHandler(e, 'newPassword1')}
 					required />
 				<TextField
 					className={classes.Input}
 					label="Confirm New Password"
 					value={changePasswordForm.newPassword2}
+					error={formError.newPassword2}
 					type="password"
 					onChange={e => inputChangedHandler(e, 'newPassword2')}
 					required />
